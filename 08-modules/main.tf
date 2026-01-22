@@ -12,13 +12,24 @@ terraform {
 
 module "app_configs" {
   # Подключаются дочерние модули
-  source = "./modules/fileset"
+  source   = "./modules/fileset"
+  # Передается директория в подключаемый модуль 
+  base_dir = "app"
 
-  # В переменную files модуля fileset загружаем данные
+  # В переменную files файла modules/fileset/variables.tf загружаем данные
   files = {
-    "app.conf"    = "app_name=demo\nport=8080\n"
-    "db.conf"     = "db_host=localhost\ndb_port=5432\n"
-    "logger.conf" = "level=info\nformat=json\n"
+    "app.conf" = {
+      content         = "app_name=demo\nport=8080\n"
+      file_permission = "0644"
+    }
+    "db.conf" = {
+      content         = "db_host=localhost\ndb_port=5432\n"
+      file_permission = "0600"
+    }
+    "logger.conf" = {
+      content         = "level=info\nformat=json\n"
+      file_permission = "0644"
+    }
   }
 }
 

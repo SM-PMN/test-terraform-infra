@@ -14,6 +14,7 @@ locals {
 resource "local_file" "files" {
   for_each = var.files
 
-  filename = "${path.module}/${local.base_path}${each.key}"
-  content  = each.value
+  filename        = "${path.module}/${local.base_path}${each.key}"
+  content         = each.value.content
+  file_permission = each.value.file_permission
 }
